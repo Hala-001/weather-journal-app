@@ -29,9 +29,12 @@ async function getUserAsync() {
     
     const content = document.getElementById('feelings').value;
     document.getElementById('content').innerHTML=content;
-    
 
-    postData('/', { temperature: 'X', date: newDate, user_response:content  })
+    
+    
+    const tempDiv = document.getElementById('temp');
+    
+    //postData('/', { temperature: 'X', date: newDate, user_response:content  })
     
    
     fetch(baseURL + zipcode + ',us&appid=' + apiKey)
@@ -42,7 +45,10 @@ async function getUserAsync() {
 
     fetch(baseURL + zipcode + ',us&appid=' + apiKey)
       .then(response => response.json())  // convert to json
-      .then(json => console.log(json.main['temp']))    //print data to console
+      //.then(json => console.log(json.main['temp']))    //print data to console
+      .then(json =>  tempDiv.innerHTML = json.main['temp'])
+      .then(json => postData('/', { temperature: json.main['temp'], date: newDate, user_response:content  }))
+      
       .catch(err => console.log('Request Failed', err)); // Catch errors
 
       
